@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.6.3",
+    "bootstrap": "^5.3.7",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.0",
+    "sass-embedded": "^1.90.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
