@@ -97,6 +97,27 @@ header {
   }
 }
 
+footer{
+  background-color: $tertiary-color;
+  h2{
+    font-size: 1.5em;
+  }
+  ul{
+    li{
+              margin-bottom: 10px;
+
+      a{
+        color: $primary-white;
+        font: 1.2em;
+      }
+    }
+  }
+  .spotlight{
+    border-top: 1px solid rgba($primary-white, 0.10);
+    border-bottom: 1px solid rgba($primary-white, 0.10);
+  }
+}
+
 .section-1 {
   .swiper {
     .swiper-wrapper {
