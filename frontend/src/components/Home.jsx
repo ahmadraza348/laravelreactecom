@@ -1,12 +1,14 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Logo from "../assets/images/logo.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import SliderOneImg from "../assets/images/banner-1.jpg"
-import SliderTwoImg from "../assets/images/banner-2.jpg"
+import SliderOneImg from "../assets/images/banner-1.jpg";
+import SliderTwoImg from "../assets/images/banner-2.jpg";
+import ProductImg from "../assets/images/eight.jpg";
+import LatestProducts from "./common/LatestProducts";
+import FeaturedProducts from "./common/FeaturedProducts";
 
 const Home = () => {
   return (
@@ -86,6 +88,8 @@ const Home = () => {
           </SwiperSlide>
         </Swiper>
       </section>
+      <LatestProducts />
+      <FeaturedProducts />
     </>
   );
 };
