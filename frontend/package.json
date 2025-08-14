@@ -16,6 +16,7 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.0",
+    "react-simple-star-rating": "^5.1.7",
     "sass-embedded": "^1.90.0",
     "swiper": "^11.2.10"
   },
