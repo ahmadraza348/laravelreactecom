@@ -16,7 +16,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await fetch( `${apiUrl} admin/login`, {
+    const res = await fetch( `${apiUrl}admin/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -24,7 +24,7 @@ const Login = () => {
       body: JSON.stringify(data),
     });
     const result = await res.json();
-    if (result.status == '401') {
+    if (result.status === 401) {
       toast.error(result.message);
     } else {
       const userInfo = {
