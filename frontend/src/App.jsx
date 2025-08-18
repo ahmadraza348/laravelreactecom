@@ -8,11 +8,14 @@ import Checkout from "./components/Checkout";
 import Login from "./components/admin/Login";
 import Dashboard from "./components/admin/Dashboard";
   import { ToastContainer, toast } from "react-toastify";
+import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
+import { AdminAuthProvider } from "./components/common/context/adminAuth";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+      <AdminAuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -20,8 +23,13 @@ function App() {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/dashboard" element={
+            <AdminRequireAuth>
+              <Dashboard />
+            </AdminRequireAuth>
+          } />
         </Routes>
+        </AdminAuthProvider>
       </BrowserRouter>
         <ToastContainer />
     </>

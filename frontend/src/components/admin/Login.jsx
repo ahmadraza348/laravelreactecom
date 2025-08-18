@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 import { apiUrl } from "../common/http";
 import { useNavigate } from "react-router-dom";
 import Layout from "../common/Layout";
+import { AdminAuthContext } from "../common/context/adminAuth";
 
 const Login = () => {
-  //   const { login } = useContext(AuthContext);
+  const { login } = useContext(AdminAuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -28,15 +29,14 @@ const Login = () => {
           const adminInfo = {
             id: result.id,
             token: result.token,
-            name: result.name
+            name: result.name,
           };
-          //   login(adminInfo);
+          login(adminInfo);
           localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
           toast.success("Login successful!");
           navigate("/admin/dashboard");
         } else {
           toast.error(result.message);
-          
         }
       });
   };
