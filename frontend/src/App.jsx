@@ -7,6 +7,7 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Login from "./components/admin/Login";
 import Dashboard from "./components/admin/Dashboard";
+  import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/admin/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
+        <ToastContainer />
     </>
   );
 }

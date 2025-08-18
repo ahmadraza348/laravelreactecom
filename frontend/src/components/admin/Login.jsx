@@ -5,9 +5,8 @@ import { apiUrl } from "../common/http";
 import { useNavigate } from "react-router-dom";
 import Layout from "../common/Layout";
 
-
 const Login = () => {
-//   const { login } = useContext(AuthContext);
+  //   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -16,26 +15,30 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await fetch( `${apiUrl}admin/login`, {
+    const res = await fetch(`${apiUrl}admin/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    if (result.status === 401) {
-      toast.error(result.message);
-    } else {
-      const userInfo = {
-        id: result.id,
-        token: result.token,
-      };
-    //   login(userInfo);
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      toast.success("Login successful!");
-      navigate("/admin/dashboard");
-    }
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status === 200) {
+          const adminInfo = {
+            id: result.id,
+            token: result.token,
+            name: result.name
+          };
+          //   login(adminInfo);
+          localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
+          toast.success("Login successful!");
+          navigate("/admin/dashboard");
+        } else {
+          toast.error(result.message);
+          
+        }
+      });
   };
 
   return (
