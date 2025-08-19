@@ -31,7 +31,7 @@ const Login = () => {
             token: result.token,
             name: result.name,
           };
-          login(adminInfo);
+          login(adminInfo); // saves in context + localStorage
           localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
           toast.success("Login successful!");
           navigate("/admin/dashboard");

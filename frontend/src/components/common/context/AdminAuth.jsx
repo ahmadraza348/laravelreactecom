@@ -1,4 +1,3 @@
-// components/common/context/adminAuth.jsx
 import { createContext, useState } from "react";
 
 export const AdminAuthContext = createContext();
