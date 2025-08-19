@@ -4,7 +4,9 @@ export const AdminAuthContext = createContext();
 
 export const AdminAuthProvider = ({ children }) => {
   const storedAdmin = localStorage.getItem("adminInfo");
-  const [user, setUser] = useState(storedAdmin ? JSON.parse(storedAdmin) : null);
+  const [user, setUser] = useState(
+    storedAdmin ? JSON.parse(storedAdmin) : null
+  ); //storing in staate bcz we dont want to remove admin info even page refresh
 
   const login = (adminData) => {
     localStorage.setItem("adminInfo", JSON.stringify(adminData));
