@@ -9,7 +9,7 @@ import Login from "./components/admin/Login";
 import Dashboard from "./components/admin/Dashboard";
   import { ToastContainer, toast } from "react-toastify";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
-import { AdminAuthProvider } from "./components/common/context/adminAuth";
+import { AdminAuthProvider } from "./components/common/context/AdminAuth";
 
 function App() {
   return (

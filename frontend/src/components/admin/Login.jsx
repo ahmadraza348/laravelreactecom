@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 import { apiUrl } from "../common/http";
 import { useNavigate } from "react-router-dom";
 import Layout from "../common/Layout";
-import { AdminAuthContext } from "../common/context/adminAuth";
+import { AdminAuthContext } from "../common/context/AdminAuth";
+import axios from "axios"; // ✅ import axios
 
 const Login = () => {
   const { login } = useContext(AdminAuthContext);
@@ -16,29 +17,40 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await fetch(`${apiUrl}admin/login`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.status === 200) {
-          const adminInfo = {
-            id: result.id,
-            token: result.token,
-            name: result.name,
-          };
-          login(adminInfo); // saves in context + localStorage
-          localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
-          toast.success("Login successful!");
-          navigate("/admin/dashboard");
-        } else {
-          toast.error(result.message);
-        }
+    try {
+      // ✅ axios automatically parses JSON response
+      const res = await axios.post(`${apiUrl}admin/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      if (res.data.status === 200) {
+        const adminInfo = {
+          id: res.data.id,
+          token: res.data.token,
+          name: res.data.name,
+        };
+        login(adminInfo); // saves in context + localStorage
+        localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
+        toast.success("Login successful!");
+        navigate("/admin/dashboard");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      // ✅ axios gives detailed error messages
+      if (error.response) {
+        // Server responded with a status other than 200
+        toast.error(error.response.data.message || "Login failed!");
+      } else if (error.request) {
+        // Request was made but no response
+        toast.error("No response from server. Please try again.");
+      } else {
+        // Something else went wrong
+        toast.error("An error occurred. Please try again.");
+      }
+    }
   };
 
   return (
