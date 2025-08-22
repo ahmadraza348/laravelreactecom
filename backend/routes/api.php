@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AuthController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +11,16 @@ Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function () {    
+     Route::get('/categories', [CategoryController::class, 'index']); 
+    Route::post('/categories', [CategoryController::class, 'store']); 
+    Route::put('/categories/{id}', [CategoryController::class, 'update']); 
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']); 
+
+
+     Route::get('/brands', [BrandController::class, 'index']); 
+    Route::post('/brands', [BrandController::class, 'store']); 
+    Route::put('/brands/{id}', [BrandController::class, 'update']); 
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy']); 
+});

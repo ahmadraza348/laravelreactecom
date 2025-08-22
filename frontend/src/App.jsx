@@ -6,10 +6,11 @@ import Product from "./components/Product"
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Login from "./components/admin/Login";
-import Dashboard from "./components/admin/Dashboard";
-  import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 import { AdminAuthProvider } from "./components/common/context/AdminAuth";
+import Dashboard from "./components/admin/Dashboard";
+import {default as AllCategories} from "./components/admin/categories/show";
 
 function App() {
   return (
@@ -23,11 +24,21 @@ function App() {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/admin/login" element={<Login />} />
+          
           <Route path="/admin/dashboard" element={
             <AdminRequireAuth>
               <Dashboard />
             </AdminRequireAuth>
           } />
+
+          <Route path="/admin/categories" element={
+            <AdminRequireAuth>
+              <AllCategories />
+            </AdminRequireAuth>
+          } />
+
+
+
         </Routes>
         </AdminAuthProvider>
       </BrowserRouter>
