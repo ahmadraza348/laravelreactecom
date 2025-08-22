@@ -11,6 +11,13 @@ import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 import { AdminAuthProvider } from "./components/common/context/AdminAuth";
 import Dashboard from "./components/admin/Dashboard";
 import {default as AllCategories} from "./components/admin/categories/show";
+import {default as CreateCategory} from "./components/admin/categories/create";
+import {default as EditCategory} from "./components/admin/categories/Edit";
+
+
+import {default as AllBrands} from "./components/admin/brands/show";
+import {default as CreateBrand} from "./components/admin/brands/create";
+import {default as EditBrand} from "./components/admin/brands/Edit";
 
 function App() {
   return (
@@ -34,6 +41,39 @@ function App() {
           <Route path="/admin/categories" element={
             <AdminRequireAuth>
               <AllCategories />
+            </AdminRequireAuth>
+          } />
+
+          <Route path="/admin/category/create" element={
+            <AdminRequireAuth>
+              <CreateCategory />
+            </AdminRequireAuth>
+          } />
+
+          
+          <Route path="/admin/category/edit/:id" element={
+            <AdminRequireAuth>
+              <EditCategory />
+            </AdminRequireAuth>
+          } />
+
+          {/* Brands */}
+          <Route path="/admin/brands" element={
+            <AdminRequireAuth>
+              <AllBrands />
+            </AdminRequireAuth>
+          } />
+
+          <Route path="/admin/brand/create" element={
+            <AdminRequireAuth>
+              <CreateBrand />
+            </AdminRequireAuth>
+          } />
+
+          
+          <Route path="/admin/brand/edit/:id" element={
+            <AdminRequireAuth>
+              <EditBrand />
             </AdminRequireAuth>
           } />
 

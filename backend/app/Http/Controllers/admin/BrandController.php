@@ -52,7 +52,7 @@ class BrandController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug' => 'required|unique:brands,slug,' . $id, 
+            'slug' => 'required|unique:brands,slug,' . $id,
         ]);
 
         if ($validator->fails()) {
@@ -82,7 +82,25 @@ class BrandController extends Controller
         ]);
     }
 
-    // ✅ Delete category
+
+    public function show($id)
+    {
+        $brand = Brand::find($id);
+        if (!$brand) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'brand Not Found',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'brand FOunde Successfully',
+            'data' => $brand
+        ]);
+    }
+
+
     public function destroy($id)
     {
         $brand = Brand::find($id);

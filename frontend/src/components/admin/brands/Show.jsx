@@ -5,16 +5,15 @@ import { useState } from "react";
 import axios from "axios";
 import { apiUrl, token } from "../../common/http";
 import { toast } from "react-toastify";
-import loadingGif from "../../../assets/loading.gif"; 
+import loadingGif from "../../../assets/loading.gif";
 
 const Show = () => {
-  const [category, setCategory] = useState([]);
-      const [loading, setLoading] = useState(true); 
+  const [brand, setBrand] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-
-  const fetchCategories = async () => {
+  const fetchBrands = async () => {
     try {
-      const res = await axios.get(`${apiUrl}categories`, {
+      const res = await axios.get(`${apiUrl}brands`, {
         headers: {
           "content-type": "application/json",
           Accept: "Application/json",
@@ -22,22 +21,22 @@ const Show = () => {
         },
       });
       if (res.data.status == 200) {
-        setCategory(res.data.data);
+        setBrand(res.data.data);
       }
     } catch (error) {
-      console.error("Error fetching categories:", error);
-    }finally {
+      console.error("Error fetching brands:", error);
+    } finally {
       setLoading(false);
     }
   };
   useEffect(() => {
-    fetchCategories();
+    fetchBrands();
   }, []);
 
-  const deleteCategory = async (id) => {
-    if (confirm("Are you sure to delete")) {
+  const deleteBrand = async (id) => {
+    if (confirm("Are you sure to delete brand")) {
       try {
-        const res = await axios.delete(`${apiUrl}categories/` + id, {
+        const res = await axios.delete(`${apiUrl}brands/` + id, {
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token()}`,
@@ -45,8 +44,8 @@ const Show = () => {
         });
 
         if (res.data.status === 200) {
-          const newCategories = category.filter((cat) => cat.id != id);
-          setCategory(newCategories);
+          const newBrands = brand.filter((bran) => bran.id != id);
+          setBrand(newBrands);
           toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
@@ -64,19 +63,20 @@ const Show = () => {
         <div className="card shadow border-0">
           <div className="card-body p-4">
             <div className="d-flex justify-content-between">
-              <h4 className="h5">Categories</h4>
+              <h4 className="h5">Brands</h4>
               <Link
                 className="btn btn-primary btn-sm"
                 as={Link}
-                to="/admin/category/create"
+                to="/admin/brand/create"
               >
                 Create
               </Link>
             </div>
             <hr />
+
             {loading ? (
               <div className="text-center py-5">
-                <img src={loadingGif} alt="Loading..." />
+                <img src={loadingGif} alt="" />
               </div>
             ) : (
               <table className="table table-striped">
@@ -90,23 +90,23 @@ const Show = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {category &&
-                    category.map((cat) => {
+                  {brand &&
+                    brand.map((bran) => {
                       return (
-                        <tr key={cat.id}>
-                          <td>{cat.id}</td>
-                          <td>{cat.name}</td>
-                          <td>{cat.slug}</td>
-                          <td>{cat.status == 1 ? "Active" : "Block"}</td>
+                        <tr key={bran.id}>
+                          <td>{bran.id}</td>
+                          <td>{bran.name}</td>
+                          <td>{bran.slug}</td>
+                          <td>{bran.status == 1 ? "Active" : "Block"}</td>
                           <td>
                             <Link
                               className="btn btn-primary btn-sm "
-                              to={`/admin/category/edit/${cat.id}`}
+                              to={`/admin/brand/edit/${bran.id}`}
                             >
                               Edit
                             </Link>
                             <Link
-                              onClick={() => deleteCategory(cat.id)}
+                              onClick={() => deleteBrand(bran.id)}
                               href="#"
                               className="btn btn-secondary btn-sm  ms-2"
                             >
