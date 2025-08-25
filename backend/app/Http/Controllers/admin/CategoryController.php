@@ -31,9 +31,9 @@ class CategoryController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 500,
+                'status' => 400,
                 'error' => $validator->errors(),
-            ]);
+            ],400);
         }
 
         $category = new Category();
