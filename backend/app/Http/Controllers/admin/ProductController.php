@@ -49,6 +49,7 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
         $product->sku = $request->sku;
+        $product->barcode = $request->barcode;
         $product->qty = $request->qty;
         $product->description = $request->description;
         $product->short_description = $request->short_description;
@@ -63,13 +64,26 @@ class ProductController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+/**
+ * Display the specified resource.
+ */
+public function show(string $id)
+{
+    $product = Product::find($id);
+
+    if (!$product) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Product not found',
+        ], 404);
     }
+
+    return response()->json([
+        'status' => 200,
+        'product' => $product,
+    ], 200);
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -82,16 +96,73 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+  public function update(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'title' => 'required',
+        'price' => 'required',
+        'category_id' => 'required',
+        'sku' => 'required',
+        'status' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 400,
+            'error' => $validator->errors(),
+        ], 400);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    $product = Product::find($id);
+
+    if (!$product) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Product not found',
+        ], 404);
     }
+
+    $product->title = $request->title;
+    $product->price = $request->price;
+    $product->compare_price = $request->compare_price;
+    $product->category_id = $request->category_id;
+    $product->brand_id = $request->brand_id;
+    $product->sku = $request->sku;
+    $product->barcode = $request->barcode;
+    $product->qty = $request->qty;
+    $product->description = $request->description;
+    $product->short_description = $request->short_description;
+    $product->status = $request->status;
+    $product->is_featured = $request->is_featured;
+    $product->save();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Product Updated Successfully',
+    ], 200);
+}
+
+
+/**
+ * Remove the specified resource from storage.
+ */
+public function destroy(string $id)
+{
+    $product = Product::find($id);
+
+    if (!$product) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Product not found',
+        ], 404);
+    }
+
+    $product->delete();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Product deleted successfully',
+    ], 200);
+}
+
 }
