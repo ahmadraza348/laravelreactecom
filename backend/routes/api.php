@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\admin\AuthController;
-use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\AuthController;
+use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\admin\TempImageController;
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
 
@@ -31,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/sizes', [SizeController::class, 'index']);
 
+    Route::post('/temp-images', [TempImageController::class, 'store']);
 
     Route::resource('products', ProductController::class);
 });

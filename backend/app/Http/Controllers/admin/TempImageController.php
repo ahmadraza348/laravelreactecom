@@ -24,7 +24,6 @@ class TempImageController extends Controller
         }
 
         $image = $request->image;
-
         $ext = $image->getClientOriginalExtension();
         $image_name = strtotime("now") . "." . $ext;
 
