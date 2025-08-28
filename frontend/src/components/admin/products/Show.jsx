@@ -19,7 +19,7 @@ const show = () => {
         },
       });
       if (res.data.status == 200) {
-        setProduct((await res).data.data)
+        setProduct(res.data.data)
       }
     } catch (error) {
       console.error("Error fetching products:", error);
