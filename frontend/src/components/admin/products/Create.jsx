@@ -70,7 +70,7 @@ const Create = ({ placeholder }) => {
   const onSubmit = async (data) => {
     try {
       data.description = content;
-      data.image_id = imageId;
+      data.imageId = imageId;
 
       const res = await axios.post(`${apiUrl}products`, data, {
         headers: {
@@ -243,7 +243,7 @@ const Create = ({ placeholder }) => {
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
-                        {cat.title}
+                        {cat.name}
                       </option>
                     ))}
                   </select>
@@ -263,7 +263,7 @@ const Create = ({ placeholder }) => {
                     <option value="">Select Brand</option>
                     {brands.map((brand) => (
                       <option key={brand.id} value={brand.id}>
-                        {brand.title}
+                        {brand.name}
                       </option>
                     ))}
                   </select>
