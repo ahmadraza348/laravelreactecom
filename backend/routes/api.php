@@ -8,8 +8,10 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\admin\TempImageController;
+use App\Http\Controllers\frontend\ProductController as FrontendProductController;
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
+Route::get('/latest-products', [FrontendProductController::class, 'latestProducts']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
