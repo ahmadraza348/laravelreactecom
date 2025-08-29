@@ -20,6 +20,16 @@ class CategoryController extends Controller
             'data' => $categories
         ]);
     }
+    // ✅ Get only active  categories
+    public function activeCategories()
+    {
+        $categories = Category::where('status', 1)->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Active Categories Fetched Successfully',
+            'data' => $categories
+        ]);
+    }
 
     // ✅ Create new category
     public function store(Request $request)

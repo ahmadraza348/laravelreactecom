@@ -13,6 +13,7 @@ const Create = ({ placeholder }) => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [imageId, setImageId] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -28,14 +29,15 @@ const Create = ({ placeholder }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // make both requests in parallel
         const [catRes, brandRes] = await Promise.all([
-          fetch(apiUrl + "categories", {
+          axios.get(apiUrl + "categories", {
             headers: {
               Accept: "application/json",
               Authorization: `Bearer ${token()}`,
             },
           }),
-          fetch(apiUrl + "brands", {
+          axios.get(apiUrl + "brands", {
             headers: {
               Accept: "application/json",
               Authorization: `Bearer ${token()}`,
@@ -43,14 +45,11 @@ const Create = ({ placeholder }) => {
           }),
         ]);
 
-        const catData = await catRes.json();
-        const brandData = await brandRes.json();
-
-        if (catData.status && Array.isArray(catData.data)) {
-          setCategories(catData.data);
+        if (catRes.data.status && Array.isArray(catRes.data.data)) {
+          setCategories(catRes.data.data);
         }
-        if (brandData.status && Array.isArray(brandData.data)) {
-          setBrands(brandData.data);
+        if (brandRes.data.status && Array.isArray(brandRes.data.data)) {
+          setBrands(brandRes.data.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -97,20 +96,25 @@ const Create = ({ placeholder }) => {
     formData.append("image", file);
 
     try {
-      const res = await fetch(apiUrl + "temp-images", {
-        method: "POST",
+      const res = await axios.post(apiUrl + "temp-images", formData, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token()}`,
         },
-        body: formData,
       });
-      const result = await res.json();
 
-      if (result.status === false) {
-        toast.error(result.error?.image?.[0] || "Image upload failed.");
+      if (res.data.status === false) {
+        toast.error(res.data.error?.image?.[0] || "Image upload failed.");
       } else {
-        setImageId(result.data.id);
+        setImageId(res.data.data.id);
+
+        // Build image preview URL
+        const imageUrl =
+          apiUrl.replace("api/", "") + "uploads/temp/" + res.data.data.name;
+
+        // Save in state to show preview
+        setPreview(imageUrl);
+
         toast.success("Image uploaded successfully.");
       }
     } catch (error) {
@@ -280,6 +284,21 @@ const Create = ({ placeholder }) => {
                   />
                 </div>
               </div>
+              {preview && (
+                <div className="col-md-6">
+                  <div className="mb-3">
+                    <label className="form-label">Preview</label>
+
+                    <div className="mt-3">
+                      <img
+                        src={preview}
+                        alt="Uploaded"
+                        style={{ width: "150px", borderRadius: "8px" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
               {/* Short Description */}
               <div className="col-md-12">
                 <div className="mb-3">

@@ -17,13 +17,15 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/active-categories', [CategoryController::class, 'activeCategories']);
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
     Route::get('/categories/{id}', [CategoryController::class, 'show']);
-
-
+    
+    
     Route::get('/brands', [BrandController::class, 'index']);
+    Route::get('/active-brands', [BrandController::class, 'activeBrands']);
     Route::post('/brands', [BrandController::class, 'store']);
     Route::put('/brands/{id}', [BrandController::class, 'update']);
     Route::delete('/brands/{id}', [BrandController::class, 'destroy']);

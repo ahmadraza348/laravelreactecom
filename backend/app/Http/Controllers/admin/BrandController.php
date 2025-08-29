@@ -19,6 +19,15 @@ class BrandController extends Controller
             'data' => $brands
         ]);
     }
+    public function activeBrands()
+    {
+        $brands = Brand::where('status', 1)->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Active brands Fetched Successfully',
+            'data' => $brands
+        ]);
+    }
 
     public function store(Request $request)
     {
