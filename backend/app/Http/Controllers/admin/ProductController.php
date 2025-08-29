@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\File;
+
 
 class ProductController extends Controller
 {
@@ -18,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products = Product::orderBy('created_at', "DESC")->get();
+        $products = Product::orderBy('created_at', "DESC")->with('categories')->get();
         return response()->json([
             'status' => 200,
             'message' => 'Products Fetched Successfully',
@@ -166,6 +168,41 @@ class ProductController extends Controller
         $product->status = $request->status;
         $product->is_featured = $request->is_featured;
         $product->save();
+
+        
+        if ($request->imageId > 0) {
+                        $oldImage = $product->image;
+
+            $tempImage = TempImage::find($request->imageId);
+            if ($tempImage != null) {
+                $extArray = explode('.', $tempImage->name);
+                $ext = last($extArray);
+
+                $fileName = strtotime('now') . $product->id . "." . $ext;
+
+                // create small Thumbnails here
+                $sourcepath = public_path('uploads/temp/' . $tempImage->name);
+                $destpath = public_path('uploads/products/small/' . $fileName);
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($sourcepath);
+                $image->coverDown(500, 600);
+                $image->save($destpath);
+
+                // create large Thumbnails here
+                $destpath = public_path('uploads/products/large/' . $fileName);
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($sourcepath);
+                $image->scaleDown(1200);
+                $image->save($destpath);
+
+                $product->image =  $fileName;
+                $product->save();
+            }
+             if ($oldImage != "") {
+                File::delete(public_path('uploads/services/large/' . $oldImage));
+                File::delete(public_path('uploads/services/small/' . $oldImage));
+            }
+        }
 
         return response()->json([
             'status' => 200,
