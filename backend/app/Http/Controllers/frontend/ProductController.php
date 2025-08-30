@@ -17,12 +17,12 @@ class ProductController extends Controller
         ], 200);
     }
 
-    // public function featuredProducts()
-    // {
-    //     $products = Product::where(['status' => 1])->orderBy('created_at', 'ASC')->limit(8)->get();
-    //     return response()->json([
-    //         'status' => 200,
-    //         'data' => $products,
-    //     ], 200);
-    // }
+    public function featuredProducts()
+    {
+        $products = Product::where(['status' => 1, 'is_featured'=>'yes'])->limit(8)->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $products,
+        ], 200);
+    }
 }

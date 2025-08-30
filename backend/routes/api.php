@@ -12,6 +12,7 @@ use App\Http\Controllers\frontend\ProductController as FrontendProductController
 
 Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::get('/latest-products', [FrontendProductController::class, 'latestProducts']);
+Route::get('/featured-products', [FrontendProductController::class, 'featuredProducts']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
